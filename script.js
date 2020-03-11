@@ -333,7 +333,7 @@ class Template extends Reminder {
     
 }
 
-let calender = new Calender(6, 2, 2020);
+let calender = new Calender(Today.date, Today.month, Today.year);
 
 calender.left_arrow.addEventListener("click", () => { // When the left arrow has been clicked
     calender.previousMonth();
@@ -346,7 +346,6 @@ calender.right_arrow.addEventListener("click", () => { // When the right arrow h
 calender.date_header.addEventListener("click", () => { // When the header has been clicked
     calender.today();
 });
-
 
 window.onload = () => { // When the page loads
     calender.today();
