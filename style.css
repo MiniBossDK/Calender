@@ -1,0 +1,166 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#left-panel {
+    display: flex;
+    flex-direction: column;
+    float: left;
+    width: 365px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#Calender {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#header {
+    display: flex;
+    width: 100%;
+    
+}
+
+#header > label {
+    font-size: 26px;
+    flex-basis: 80%;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#header > label:hover {
+    background-color: gray;
+}
+
+#header > img {
+    padding: 10px; 
+    float: right;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#header > img:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#container {
+    display: table;
+    table-layout: fixed;
+}
+
+#weekdays-container {
+    display: table-row;
+}
+
+#weekdays-container > div {
+    display: table-cell;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    cursor: default;
+    font-size: 24px;
+    padding: 10px;
+}
+
+.week-num {
+    opacity: 0.7;
+}
+
+#days-container {
+    display: table-row-group;
+    text-align: center;
+}
+
+.days-row {
+    display: table-row;
+}
+
+.days-row > div {
+    display: table-cell;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.days-row > span {
+    display: table-cell;
+    text-align: center;
+    cursor: default;
+    font-size: 20px;
+    padding: 10px;
+    width: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.days-row > div:hover {
+    background-color: rgba(0, 0, 0, 0.3)
+}
+
+.active {
+    color: black;
+    text-align: center;
+    padding: 60px 0;
+    font-size: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.inactive {
+    color: #575366;
+    opacity: 0.7;
+    text-align: center;
+    padding: 60px 0;
+    font-size: 30px;
+    border-radius: 50%;
+}
+
+.today {
+    background-color: #537590;
+    text-align: center;
+    padding: 60px 0;
+    font-size: 30px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.active:hover {
+    background-color: darkred;
+}
+
+.placeHolder-header {
+    padding: 40px 40px;
+    background-color: red;
+}
+
+.placeHolder-sidebar {
+    background-color: blue;
+}
+
+#content-container {
+    display: inline-flex;
+    position: absolute;
+    flex-direction: column;
+    float: right;
+    background-color: tomato;
+    width: 80.8%
+}
+
+.time {
+    padding: 20px;
+    width: 2.5%;
+    text-align: center;
+    background-color: gray;
+    font-weight: 700;
+}
+
+.time:hover {
+    background-color: yellowgreen;
+}
