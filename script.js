@@ -2,6 +2,7 @@ class Today {
 
     static get year() {
         // 1 year = 31557600000 milisec
+        // Starts from the year 1970
         return Math.floor((Date.now()/31557600000)+1970);
     }
 
@@ -12,8 +13,17 @@ class Today {
 
     static get date() {
         // 1 day = 86400000 milisec
-        return Math.floor((Date.now()-Date.UTC(this.year, this.month))/86400000) + 1;
+        // 1 hour extra = 3600000 milisec
+        return Math.ceil(((Date.now()+3600000)-Date.UTC(this.year, this.month))/86400000);
     }
+
+    static get hour() {
+        // 1 hour = 3600000 milisec
+        return this.date
+    }
+    // TODO
+    // Add Hours, Minutes
+
 }
 
 class Year {
@@ -73,50 +83,49 @@ class Month {
         return this.monthNames[this.month];
     }
 
-    // Works
+    
     get createDays() {
         let days = [];
         let firstDay = new Month(this.month, this.year).firstDay-2;
         let month = this.month;
         let year = this.year;
         for (let i = 0; i < this.maxDays; i++) {
-            // Change month...
+            // Change month and year...
             if(i-firstDay <= 0) {
-                year = (this.month - 1 === -1) ? this.year - 1 : this.year;
+                year = (this.month - 1 === -1) ? this.year - 1 : this.year; //... to the prev year
                 month = (this.month - 1 === -1) ? 11 : this.month - 1; //... to the prev month
             }
             else if(i > this.length+firstDay) {
-                year = (this.month + 1 === 12) ? this.year + 1 : this.year;
-                month = (this.month + 1 === 12) ? 0 : this.month + 1; //... for the next month
+                year = (this.month + 1 === 12) ? this.year + 1 : this.year; //... to the next year
+                month = (this.month + 1 === 12) ? 0 : this.month + 1; //... to the next month
             } 
-            // Current month
+            // Current month and year
             else {
                 month = this.month; 
                 year = this.year;
             }
-            // Insert day objects
+            // Insert day objects into a list
             days[i] = new Day(new Date(this.year, this.month, i-firstDay).getDate(), month, year);
-            // Set 
+            // Set active and isToday
             if(i-firstDay <= 0 || i > this.length+firstDay) days[i].active = false; 
             if(i-firstDay === Today.date && this.month === Today.month && Today.year === this.year) days[i].isToday = true;
         }
         return days;
     }
 
-    // Works
+    
     createMonth() { 
-        //let firstWeek = new Day1(, this.month, this.year).weekNum;
         let days = this.createDays;
         let start = 0; 
         let finish = 7;
         for (let i = 0; i < this.maxWeeks; i++) {
             // Insert days into 6 different week objects
             this.weeks[i] = new Week(new Day(days[finish-1].date, days[finish-1].month, days[finish-1].year).weekNum, this.month, this.year);
-            //console.log(days[finish-1].year, days[finish-1].date);
             this.weeks[i].createWeeks(i, days.slice(start, finish));
             start += 7;
             finish += 7;  
         }
+        
         this.setAttributes(days);
         this.setEventListeners(days);
 
@@ -137,6 +146,7 @@ class Month {
             days[i].dayElement.addEventListener("click", () => {
                 console.log(days[i].date, days[i].month, days[i].year);
                 console.log(days[i]);
+                console.log(days[i].name);
             });
         }
     }
@@ -156,7 +166,7 @@ class Month {
             }
         }
     }
-    // Works
+    
     get firstWeek() {
         return Math.floor((new Day(1, this.month, this.year).ordinalDate - new Date(this.year, this.month, 1).getDay() + 10)/7);
     }
@@ -213,7 +223,7 @@ class Day {
         this.dayNames = ['Sunday', 'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         this.active = true; 
     }
-    // Works
+    
     get weekNum() {    
        // https://www.epochconverter.com/weeknumbers 
        let target = new Date(this.year, this.month, this.date);
@@ -231,20 +241,19 @@ class Day {
        return (new Date(this.year, this.month, this.date).getDay() + 6) % 7;
     } 
 
-    // Works
+    
     set value(value) {
         this.dayElement.innerHTML = value;
     }
-    // Works
+
     get value() {
         return this.dayElement.innerHTML; 
     }
-    /*
+    
     get name() {
-        return this.dayNames[];
+        return this.dayNames[new Date(this.year, this.month, this.date).getDay()];
     }
-    */
-    // Works
+    
     get ordinalDate() {
         return Math.floor((Date.UTC(this.year, this.month, this.date) - Date.UTC(this.year, 0, 1))/86400000) + 1;
     }
@@ -332,6 +341,8 @@ class Template extends Reminder {
     }
     
 }
+
+
 
 let calender = new Calender(Today.date, Today.month, Today.year);
 
