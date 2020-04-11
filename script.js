@@ -17,13 +17,20 @@ class Today {
         return Math.ceil(((Date.now()+3600000)-Date.UTC(this.year, this.month))/86400000);
     }
 
+    static get week() {
+        // 7 days = 86400000 milisec * 7
+        return Math.ceil((Date.now()+3600000 - Date.UTC(this.year, 0, 1))/(86400000*7));
+    }
+
     static get hour() {
         // 1 hour = 3600000 milisec
-        return this.date
+        return Math.ceil((Date.now()+3600000 - Date.UTC(this.year, this.month, this.date))/3600000);
     }
-    // TODO
-    // Add Hours, Minutes
 
+    static get minute() {
+        // 1 minute = 60000 milisec
+        return Math.floor((Date.now()+3600000 - Date.UTC(this.year, this.month, this.date, this.hour-1))/60000);
+    }
 }
 
 class Year {
@@ -123,9 +130,9 @@ class Month {
             this.weeks[i] = new Week(new Day(days[finish-1].date, days[finish-1].month, days[finish-1].year).weekNum, this.month, this.year);
             this.weeks[i].createWeeks(i, days.slice(start, finish));
             start += 7;
-            finish += 7;  
+            finish += 7;
         }
-        
+    
         this.setAttributes(days);
         this.setEventListeners(days);
 
@@ -143,11 +150,17 @@ class Month {
 
     setEventListeners(days) {
         for (let i = 0; i < days.length; i++) {
-            days[i].dayElement.addEventListener("click", () => {
-                console.log(days[i].date, days[i].month, days[i].year);
-                console.log(days[i]);
-                console.log(days[i].name);
-            });
+            if (!days[i].active && i > 6) {
+                days[i].dayElement.addEventListener("click", () => {
+                    
+                    insertDaysInWeekViewByWeek(days[i].weekNum);
+                });     
+            } else {
+                days[i].dayElement.addEventListener("click", () => {
+                    
+                    insertDaysInWeekViewByWeek(days[i].weekNum);
+                });
+            }
         }
     }
 
@@ -322,42 +335,40 @@ class Calender extends Month {
     }
 }
 
-class Reminder extends Day {
-
-    constructor(date, month, year, startTime, endTime) {
-        super(date, month, year)
-        this.startTime = startTime;
-        this.endTime = endTime; 
-        this.title = title;
-        this.templates = ["Reminder", "Event", "Task"];
-        this.reminderElement = document.createElement("div");
-    }
-}
-
-class Template extends Reminder {
-    
-    constructor(templateName) {
-      this.template = templateName;  
-    }
-    
-}
-
-
-
 let calender = new Calender(Today.date, Today.month, Today.year);
 
-calender.left_arrow.addEventListener("click", () => { // When the left arrow has been clicked
+function insertDaysInWeekViewByWeek(week) {
+    let weekDayNumber = document.getElementsByClassName("week-day-number");
+    calender.weeks.forEach((val, index, arr) => {
+        if (val.week === week) {
+            for (let i = 0; i < weekDayNumber.length; i++) {
+                if(arr[index].days[i].isToday) {
+                    weekDayNumber[i].style.backgroundColor = "#537590";
+                    weekDayNumber[i].style.color = "white";
+                    weekDayNumber[i].innerHTML = arr[index].days[i].date;
+                } else {
+                    weekDayNumber[i].style = null;
+                    weekDayNumber[i].innerHTML = arr[index].days[i].date;
+                }
+            }
+        }
+    });
+}
+
+calender.left_arrow.addEventListener("click", () => { // When the left arrow on the calender has been clicked
     calender.previousMonth();
 });
 
-calender.right_arrow.addEventListener("click", () => { // When the right arrow has been clicked
+calender.right_arrow.addEventListener("click", () => { // When the right arrow on the calender has been clicked
     calender.nextMonth();
 });
 
-calender.date_header.addEventListener("click", () => { // When the header has been clicked
+calender.date_header.addEventListener("click", () => { // When the calender header has been clicked
     calender.today();
 });
 
 window.onload = () => { // When the page loads
     calender.today();
+    insertDaysInWeekViewByWeek(Today.week);
 } 
+

@@ -9,18 +9,30 @@
 </head>
 
 <body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label for="header">Hello</label>
+                <span class="close">&times;</span>
+            </div>
+            <input type="text" name="title" id="title-textbox" placeholder="Add Title">
+            <input type="date" name="date" id="datetime-textbox" placeholder="">
+            <button type="submit">Save</button>
+        </div>
+    </div>
     <div class="placeHolder-header">Empty</div>
     <div id="main-calender-content">
         <div id="content-container">
             <div class="week-days-row">
                 <div class="time-zone">GMT+01</div>
-                <div class="week-day">Mon.</div>
-                <div class="week-day">Tue.</div>
-                <div class="week-day">Wed.</div>
-                <div class="week-day">Thu.</div>
-                <div class="week-day">Fri.</div>
-                <div class="week-day">Sat.</div>
-                <div class="week-day">Sun.</div>
+                <div class="week-day"><p>Mon.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Tue.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Wed.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Thu.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Fri.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Sat.</p><span class="week-day-number"></span></div>
+                <div class="week-day"><p>Sun.</p><span class="week-day-number"></span></div>
+                <div class="week-day-empty"></div>
             </div>
             <div class="week-activities">
                 <div class="time-column">
@@ -50,19 +62,19 @@
                     <div class="time">23:00</div>
                 </div>
                 <div class="activities">
+                    <div class="activitie-day"><div class="ReminderBox"></div></div>
+                    <div class="activitie-day"></div>
+                    <div class="activitie-day"><div class="ReminderBox"></div></div>
                     <div class="activitie-day"></div>
                     <div class="activitie-day"></div>
                     <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
+                    <div class="activitie-day"><div class="ReminderBox"></div></div>
                 </div>
-             </div>
+            </div>
         </div>
         <div id="left-panel">
             <div id="Calender">
-                <div id="header">
+                <div id="calender-header">
                     <label id="date-header"></label>
                     <img id="right-arrow" src="icons/arrow_right-24px.svg" alt="right arrow"> 
                     <img id="left-arrow" src="icons/arrow_left-24px.svg" alt="left arrow"> 
@@ -100,6 +112,8 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script src="reminders.js"></script>
+    <script src="modal.js"></script>
 </body>
 
 </html>
