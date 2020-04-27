@@ -11,16 +11,22 @@
 <body>
     <div id="myModal" class="modal">
         <div class="modal-content">
+            <span class="close">&times;</span>
             <div class="modal-header">
-                <label for="header">Hello</label>
-                <span class="close">&times;</span>
+                <label for="header">Reminder</label>
             </div>
             <input type="text" name="title" id="title-textbox" placeholder="Add Title">
-            <input type="date" name="date" id="datetime-textbox" placeholder="">
-            <button type="submit">Save</button>
+            <div class="ModalDate">
+                <input type="date" name="date" id="StartDate">
+                <input type="time" name="time" id="StartTime">
+                <p>to</p>
+                <input type="date" name="date" id="EndDate">
+                <input type="time" name="time" id="EndTime">
+            </div>
+            <button type="submit" id="Save">Save</button>
         </div>
     </div>
-    <div class="placeHolder-header">Empty</div>
+    <div class="placeHolder-header"></div>
     <div id="main-calender-content">
         <div id="content-container">
             <div class="week-days-row">
@@ -62,17 +68,37 @@
                     <div class="time">23:00</div>
                 </div>
                 <div class="activities">
-                    <div class="activitie-day"><div class="ReminderBox"></div></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"><div class="ReminderBox"></div></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"></div>
-                    <div class="activitie-day"><div class="ReminderBox"></div></div>
+                    <div class="activitie-day">
+                        <div class="ReminderBox"><p class="ReminderBox-Title">Doing Homework</p><p class="ReminderBox-Time">02:00-05:45</p></div>
+                    </div>
+                    <div class="activitie-day">
+                        <div class="ReminderBox"><p class="ReminderBox-Title">Doing Homework</p><p class="ReminderBox-Time">02:00-05:45</p></div>
+                    </div>
+                    <div class="activitie-day">
+
+                    </div>
+                    <div class="activitie-day">
+
+                    </div>
+                    <div class="activitie-day">
+
+                    </div>
+                    <div class="activitie-day">
+
+                    </div>
+                    <div class="activitie-day">
+
+                    </div>
                 </div>
             </div>
         </div>
         <div id="left-panel">
+            <div id="AddReminderContainer">
+                <button class="AddReminderButton">
+                    <p>&plus;</p>
+                    <p>Add Reminder</p>
+                </button>
+            </div>
             <div id="Calender">
                 <div id="calender-header">
                     <label id="date-header"></label>
@@ -105,9 +131,6 @@
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="placeHolder-sidebar">
-                <p>Empty</p>
             </div>
         </div>
     </div>

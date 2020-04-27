@@ -1,20 +1,41 @@
 class Reminder extends Day {
 
-    constructor(date, month, year, startTime, endTime) {
+    constructor(date, month, year, startHour, endHour) {
         super(date, month, year);
-        this.startTime = startTime;
-        this.endTime = endTime; 
+        this.startHour = startHour;
+        this.endHour = endHour; 
         this.title = title;
     }
 
     BuildReminderBox() {
-        let body = document.createElement("div");
+        let reminderBox = document.createElement("div");
         
-        body.setAttribute("class", "ReminderBox");
+
+        reminderBox.setAttribute("class", "ReminderBox");
         
     }
 
+    get duration() {
+        return this.startHour-this.endHour;
+    }
 }
+
+function pixelsToHour(hourPixels) {
+    return Math.floor(hourPixels/(timeBox.offsetHeight/24));
+}
+
+function pixelsToMin(minPixels) {
+    return Math.floor((60/(timeBox.offsetHeight/24))*minPixels)
+}
+
+function hoursToPixels(hour) {
+    return hour*(timeBox.offsetHeight/24);
+}
+
+function minToPixels(min) {
+    return ((timeBox.offsetHeight/24)/60)*min;
+}
+
 
 class Template extends Reminder {
     

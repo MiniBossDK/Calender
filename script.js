@@ -3,12 +3,12 @@ class Today {
     static get year() {
         // 1 year = 31557600000 milisec
         // Starts from the year 1970
-        return Math.floor((Date.now()/31557600000)+1970);
+        return Math.floor(((Date.now()+3600000)/31557600000)+1970);
     }
 
     static get month() {
         // 1 month = 2629800000 milisec
-        return Math.floor((Date.now()-Date.UTC(this.year, 0))/2629800000);
+        return Math.floor(((Date.now()+3600000)-Date.UTC(this.year, 0))/2629800000);
     }
 
     static get date() {
@@ -19,7 +19,7 @@ class Today {
 
     static get week() {
         // 7 days = 86400000 milisec * 7
-        return Math.ceil((Date.now()+3600000 - Date.UTC(this.year, 0, 1))/(86400000*7));
+        return Math.ceil(((Date.now()+3600000) - Date.UTC(this.year, 0, 1))/(86400000*7));
     }
 
     static get hour() {
@@ -152,12 +152,10 @@ class Month {
         for (let i = 0; i < days.length; i++) {
             if (!days[i].active && i > 6) {
                 days[i].dayElement.addEventListener("click", () => {
-                    
                     insertDaysInWeekViewByWeek(days[i].weekNum);
                 });     
             } else {
                 days[i].dayElement.addEventListener("click", () => {
-                    
                     insertDaysInWeekViewByWeek(days[i].weekNum);
                 });
             }
@@ -272,13 +270,11 @@ class Day {
     }
 }
 
-class Calender extends Month {
+class Calender {
 
-    constructor(date, month, year) {
-        super(date, month, year);
-        this.year = year;
-        this.month = month;
+    constructor(date, monthObject) {
         this.date = date;
+        this.monthObject = monthObject;
         this.date_header = document.getElementById("date-header");
         this.left_arrow = document.getElementById("left-arrow");
         this.right_arrow = document.getElementById("right-arrow");
@@ -304,42 +300,42 @@ class Calender extends Month {
         this.removeDays();
         // if the next month is the next year
         if(this.month === 11) { 
-            this.year += 1;
-            this.month = 0; 
+            this.monthObject.year += 1;
+            this.monthObject.month = 0; 
         } else {
-            this.month += 1;
+            this.monthObject.month += 1;
         }
-        this.setheader(this.name, this.year);
-        this.createMonth();
+        this.setheader(this.monthObject.name, this.monthObject.year);
+        this.monthObject.createMonth();
     }
 
     previousMonth() {
         this.removeDays();
         // if the next month is the previous year
         if(this.month === 0) {
-            this.year -= 1;
-            this.month = 11; 
+            this.monthObject -= 1;
+            this.monthObject = 11; 
         } else {
-            this.month -= 1;
+            this.monthObject.month -= 1;
         }
-        this.setheader(this.name, this.year);
-        this.createMonth();
+        this.setheader(this.monthObject.name, this.monthObject.year);
+        this.monthObject.createMonth();
     }
     
     today() {
+        this.monthObject.month = Today.month;
+        this.monthObject.year = Today.year;
         this.removeDays();
-        this.month = Today.month;
-        this.year = Today.year;
-        this.setheader(this.name, this.year);
-        this.createMonth();
+        this.setheader(this.monthObject.name, this.monthObject.year);
+        this.monthObject.createMonth();
     }
 }
-
-let calender = new Calender(Today.date, Today.month, Today.year);
+let month = new Month(Today.month, Today.year);
+let calender = new Calender(Today.date, month);
 
 function insertDaysInWeekViewByWeek(week) {
     let weekDayNumber = document.getElementsByClassName("week-day-number");
-    calender.weeks.forEach((val, index, arr) => {
+    month.weeks.forEach((val, index, arr) => {
         if (val.week === week) {
             for (let i = 0; i < weekDayNumber.length; i++) {
                 if(arr[index].days[i].isToday) {
@@ -365,10 +361,10 @@ calender.right_arrow.addEventListener("click", () => { // When the right arrow o
 
 calender.date_header.addEventListener("click", () => { // When the calender header has been clicked
     calender.today();
+    insertDaysInWeekViewByWeek(Today.week);
 });
 
 window.onload = () => { // When the page loads
     calender.today();
     insertDaysInWeekViewByWeek(Today.week);
 } 
-
