@@ -299,7 +299,7 @@ class Calender {
     nextMonth() {
         this.removeDays();
         // if the next month is the next year
-        if(this.month === 11) { 
+        if(this.monthObject.month === 11) { 
             this.monthObject.year += 1;
             this.monthObject.month = 0; 
         } else {
@@ -312,13 +312,15 @@ class Calender {
     previousMonth() {
         this.removeDays();
         // if the next month is the previous year
-        if(this.month === 0) {
-            this.monthObject -= 1;
-            this.monthObject = 11; 
+        if(this.monthObject.month === 0) {
+            this.monthObject.year -= 1;
+            this.monthObject.month = 11; 
         } else {
             this.monthObject.month -= 1;
         }
         this.setheader(this.monthObject.name, this.monthObject.year);
+        console.log(this.monthObject.name);
+        console.log(this.monthObject.year);
         this.monthObject.createMonth();
     }
     

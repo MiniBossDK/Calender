@@ -281,19 +281,14 @@ body {
 #main-calender-content {
     display: flex;
     flex-flow: row-reverse;
-    height: 100%;
 }
 
 #content-container {
     width: 82%;
-    height: 100%;
 }
 
 .time-column {
-    display: flex;
-    flex-direction: column;
     width: 5%;
-    height: 940.8px;
 }
 
 .time {
@@ -308,7 +303,7 @@ body {
     flex: none;
     margin: 2% auto;
     text-align: center;
-    width: 4.98%;
+    width: 5%;
 }
 
 .week-day-empty {
@@ -318,16 +313,15 @@ body {
 
 .activities {
     display: flex;
+    flex-wrap: wrap;
     width: 95%;
-    height: 942px;
 }
 
 .activitie-day {
     background-color: #7f8c8d;
     position: relative;
-    flex-basis: 14.2857142857142857142857%;
+    width: 14.21%;
     border-right: black 1px solid;
-    height: 941px‬;
 }
 
 .week-days-row {
@@ -340,7 +334,7 @@ body {
 
 .week-activities {
     display: flex;
-    height: 70%;
+    height: 55%;
     overflow-y: scroll;
 }
 
