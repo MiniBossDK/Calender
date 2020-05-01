@@ -1,12 +1,17 @@
+let activitieDay = document.getElementsByClassName("activitie-day");
 let reminderBoxElement = document.getElementsByClassName("ReminderBox");
 let reminderBoxTimeElement = document.getElementsByClassName("ReminderBox-Time");
+let remindTest = document.createElement("div");
+remindTest.style.height = 100 + "px";
+remindTest.style.top = 20 + "px";
+remindTest.setAttribute("class", "ReminderBox");
+activitieDay[4].appendChild(remindTest);
 let timeBox = document.getElementsByClassName("time-column")[0];
-//let activitieDay = document.getElementsByClassName("activitie-day")[0];
 let timeBoxesHeight = Math.round((timeBox.offsetHeight/24)*10)/10;
 
 dragElement(reminderBoxElement[0]);   
 dragElement(reminderBoxElement[1]);
-
+dragElement(remindTest);
 
 // Drag n' Drop - (Source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_draggable)
 function dragElement(elmnt) {
@@ -30,10 +35,8 @@ function dragElement(elmnt) {
     pos2 = pos4 - e.clientY;
     pos4 = e.clientY;
     // set the element's new position:
-
-    if((elmnt.offsetTop - pos2)+elmnt.offsetHeight >= timeBox.offsetHeight-1) {
+    if((elmnt.offsetTop - pos2)+elmnt.offsetHeight >= timeBox.offsetHeight) {
       elmnt.style.top = timeBox.offsetHeight-elmnt.offsetHeight + "px";
-      console.log(timeBox.offsetHeight-elmnt.offsetHeight + "px");
     } else if((elmnt.offsetTop - pos2) <= 0) {
       elmnt.style.top = 0; 
     } else {

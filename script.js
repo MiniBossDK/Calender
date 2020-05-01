@@ -91,27 +91,27 @@ class Month {
     }
 
     
-    get createDays() {
-        let days = [];
-        let firstDay = new Month(this.month, this.year).firstDay-2;
-        let month = this.month;
-        let year = this.year;
-        for (let i = 0; i < this.maxDays; i++) {
-            // Change month and year...
-            if(i-firstDay <= 0) {
-                year = (this.month - 1 === -1) ? this.year - 1 : this.year; //... to the prev year
-                month = (this.month - 1 === -1) ? 11 : this.month - 1; //... to the prev month
+    get createDays() { 
+        let days = []; // Lav en liste til dag-objekterne
+        let firstDay = new Month(this.month, this.year).firstDay-2; // Find den første dag i måneden
+        let month = this.month; // Sæt objektets måned til en variabel
+        let year = this.year; // Sæt objektets år til en variabel
+        for (let i = 0; i < this.maxDays; i++) { // Loop indtil maxDays, som er 42, er ramt.
+            // Skift måned og år...
+            if(i-firstDay <= 0) { // Hvis dagene ligger før måneden
+                year = (this.month - 1 === -1) ? this.year - 1 : this.year; //... til forrige år
+                month = (this.month - 1 === -1) ? 11 : this.month - 1; //... til forrige måned
             }
-            else if(i > this.length+firstDay) {
-                year = (this.month + 1 === 12) ? this.year + 1 : this.year; //... to the next year
-                month = (this.month + 1 === 12) ? 0 : this.month + 1; //... to the next month
+            else if(i > this.length+firstDay) { // Hvis dagene ligger efter måneden
+                year = (this.month + 1 === 12) ? this.year + 1 : this.year; //... til næste år
+                month = (this.month + 1 === 12) ? 0 : this.month + 1; //... til næste måned
             } 
             // Current month and year
             else {
-                month = this.month; 
-                year = this.year;
+                month = this.month; // Indsæt nuværende måned
+                year = this.year; // Indsæt nurværende år 
             }
-            // Insert day objects into a list
+            // Indsæt dag-objekter ind i en liste
             days[i] = new Day(new Date(this.year, this.month, i-firstDay).getDate(), month, year);
             // Set active and isToday
             if(i-firstDay <= 0 || i > this.length+firstDay) days[i].active = false; 
@@ -319,8 +319,6 @@ class Calender {
             this.monthObject.month -= 1;
         }
         this.setheader(this.monthObject.name, this.monthObject.year);
-        console.log(this.monthObject.name);
-        console.log(this.monthObject.year);
         this.monthObject.createMonth();
     }
     
@@ -341,7 +339,7 @@ function insertDaysInWeekViewByWeek(week) {
         if (val.week === week) {
             for (let i = 0; i < weekDayNumber.length; i++) {
                 if(arr[index].days[i].isToday) {
-                    weekDayNumber[i].style.backgroundColor = "#537590";
+                    weekDayNumber[i].style.backgroundColor = "#1967d2";
                     weekDayNumber[i].style.color = "white";
                     weekDayNumber[i].innerHTML = arr[index].days[i].date;
                 } else {
