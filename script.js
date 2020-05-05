@@ -3,23 +3,23 @@ class Today {
     static get year() {
         // 1 year = 31557600000 milisec
         // Starts from the year 1970
-        return Math.floor(((Date.now()+3600000)/31557600000)+1970);
+        return Math.floor((Date.now()/(31557600000-3600000))+1970);
     }
 
     static get month() {
         // 1 month = 2629800000 milisec
-        return Math.floor(((Date.now()+3600000)-Date.UTC(this.year, 0))/2629800000);
+        return Math.floor((Date.now()-Date.UTC(this.year, 0))/(2629800000-3600000));
     }
 
     static get date() {
         // 1 day = 86400000 milisec
         // 1 hour extra = 3600000 milisec
-        return Math.ceil(((Date.now()+3600000)-Date.UTC(this.year, this.month))/86400000);
+        return Math.ceil((Date.now()-Date.UTC(this.year, this.month))/(86400000-3600000));
     }
 
     static get week() {
         // 7 days = 86400000 milisec * 7
-        return Math.ceil(((Date.now()+3600000) - Date.UTC(this.year, 0, 1))/(86400000*7));
+        return Math.ceil((Date.now() - Date.UTC(this.year, 0, 1))/((86400000-3600000)*7));
     }
 
     static get hour() {
@@ -29,7 +29,7 @@ class Today {
 
     static get minute() {
         // 1 minute = 60000 milisec
-        return Math.floor((Date.now()+3600000 - Date.UTC(this.year, this.month, this.date, this.hour-1))/60000);
+        return Math.floor(((Date.now()+3600000) - Date.UTC(this.year, this.month, this.date, this.hour-1))/60000);
     }
 }
 
@@ -106,14 +106,14 @@ class Month {
                 year = (this.month + 1 === 12) ? this.year + 1 : this.year; //... til næste år
                 month = (this.month + 1 === 12) ? 0 : this.month + 1; //... til næste måned
             } 
-            // Current month and year
+            // Nuværende måned og år
             else {
                 month = this.month; // Indsæt nuværende måned
                 year = this.year; // Indsæt nurværende år 
             }
             // Indsæt dag-objekter ind i en liste
             days[i] = new Day(new Date(this.year, this.month, i-firstDay).getDate(), month, year);
-            // Set active and isToday
+            // Indsæt active og isToday
             if(i-firstDay <= 0 || i > this.length+firstDay) days[i].active = false; 
             if(i-firstDay === Today.date && this.month === Today.month && Today.year === this.year) days[i].isToday = true;
         }
@@ -332,6 +332,7 @@ class Calender {
 }
 let month = new Month(Today.month, Today.year);
 let calender = new Calender(Today.date, month);
+
 
 function insertDaysInWeekViewByWeek(week) {
     let weekDayNumber = document.getElementsByClassName("week-day-number");
