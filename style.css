@@ -342,12 +342,13 @@ body {
     display: flex;
     height: 67%;
     overflow-y: scroll;
+    scrollbar-width: thick;
 }
 
 .week-day {
     display: flex;
     background-color: white;
-    flex-basis: 14.2857142857142857142857%;
+    flex-basis: 14.28%;
     justify-content: center;
     font-weight: 500;
     border-right: black 1px solid;
@@ -383,7 +384,6 @@ body {
     width: 100%;
     top: 80px; /*Remove when ready*/
     height: 145px; /*Remove when ready*/
-    background-color: royalblue;
     border-radius: 4px;
     z-index: 4;
 }

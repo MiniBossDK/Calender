@@ -1,24 +1,37 @@
-class Reminder extends Day {
+class Category {
+    constructor(name, color) {
+        this.name = name;
+        this.color = color;
+    }
 
-    constructor(date, month, year, startHour, endHour) {
-        super(date, month, year);
-        this.startHour = startHour;
-        this.endHour = endHour; 
+    
+
+}
+
+class Reminder {
+
+    constructor(title, date, month, year, durationHour, durationMin, category) {
+        this.date = date;
+        this.month = month;
+        this.year = year;
+        this.durationHour = durationHour;
+        this.durationMin = durationMin; 
         this.title = title;
+        this.category = category;
+        this.reminderBox = document.createElement("div");
     }
 
-    BuildReminderBox() {
-        let reminderBox = document.createElement("div");
-        
+    insertReminder() {
 
+    }
+
+    buildReminderBox() {
+        
         reminderBox.setAttribute("class", "ReminderBox");
-        
-    }
-
-    get duration() {
-        return this.startHour-this.endHour;
     }
 }
+
+let reminders = [];
 
 function pixelsToHour(hourPixels) {
     return Math.floor(hourPixels/(timeBox.offsetHeight/24));
@@ -34,13 +47,4 @@ function hoursToPixels(hour) {
 
 function minToPixels(min) {
     return ((timeBox.offsetHeight/24)/60)*min;
-}
-
-
-class Template extends Reminder {
-    
-    constructor(templateName) {
-      this.template = templateName;  
-    }
-    
 }

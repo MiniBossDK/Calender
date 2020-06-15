@@ -3,28 +3,29 @@ class Today {
     static get year() {
         // 1 year = 31557600000 milisec
         // Starts from the year 1970
-        return Math.floor((Date.now()/(31557600000-3600000))+1970);
+        return Math.floor((Date.now()/31557600000)+1970);
     }
 
     static get month() {
         // 1 month = 2629800000 milisec
-        return Math.floor((Date.now()-Date.UTC(this.year, 0))/(2629800000-3600000));
+        // Starts from 0
+        return Math.floor((Date.now()-Date.UTC(this.year, 0))/2629800000);
     }
 
     static get date() {
         // 1 day = 86400000 milisec
         // 1 hour extra = 3600000 milisec
-        return Math.ceil((Date.now()-Date.UTC(this.year, this.month))/(86400000-3600000));
+        return Math.ceil((Date.now()-Date.UTC(this.year, this.month))/86400000);
     }
 
     static get week() {
         // 7 days = 86400000 milisec * 7
-        return Math.ceil((Date.now() - Date.UTC(this.year, 0, 1))/((86400000-3600000)*7));
+        return Math.ceil((Date.now() - Date.UTC(this.year, 0, 1))/(86400000*7));
     }
 
     static get hour() {
         // 1 hour = 3600000 milisec
-        return Math.ceil((Date.now()+3600000 - Date.UTC(this.year, this.month, this.date))/3600000);
+        return Math.ceil(((Date.now()+3600000) - Date.UTC(this.year, this.month, this.date))/3600000);
     }
 
     static get minute() {
@@ -122,22 +123,24 @@ class Month {
 
     
     createMonth() { 
-        let days = this.createDays;
-        let start = 0; 
-        let finish = 7;
-        for (let i = 0; i < this.maxWeeks; i++) {
-            // Insert days into 6 different week objects
+        let days = this.createDays; // Lav dag-objekter
+        let start = 0; // Lav en variabel til start-index
+        let finish = 7; // Lav en variabel til slut-index
+        for (let i = 0; i < this.maxWeeks; i++) { // Loop 6 gange, som er max antal uger i måneden.
+            // Indsæt uge-objekt i listen med tilhørende ugenummer, måned og år
             this.weeks[i] = new Week(new Day(days[finish-1].date, days[finish-1].month, days[finish-1].year).weekNum, this.month, this.year);
-            this.weeks[i].createWeeks(i, days.slice(start, finish));
-            start += 7;
-            finish += 7;
+            // Tag 7 dage-objekter og indsæt dem i et uge-objekt
+            this.weeks[i].createWeeks(i, days.slice(start, finish)); 
+            start += 7; // Ryk start-index med 7
+            finish += 7; // Ryk slut-index med 7
         }
-    
-        this.setAttributes(days);
-        this.setEventListeners(days);
 
-        this.appendWeeks();
-        this.appendDays();
+    
+        this.setAttributes(days); // Giv dag-objekterne attributter
+        this.setEventListeners(days); // Giv dag-objekterne eventlisteners
+
+        this.appendWeeks(); // Indsæt uger i UI 
+        this.appendDays(); // Indsæt dage i UI
     }
 
     setAttributes(days) {
@@ -157,6 +160,7 @@ class Month {
             } else {
                 days[i].dayElement.addEventListener("click", () => {
                     insertDaysInWeekViewByWeek(days[i].weekNum);
+                    days[i].dayElement.style.backgroundColor = "red";
                 });
             }
         }
@@ -242,7 +246,7 @@ class Day {
        target.setDate(target.getDate() - dayNr + 3);
        let firstThursday = target.valueOf();
        target.setMonth(0, 1);
-       if (target.getDay() != 4) {
+       if (target.getDay() !== 4) {
            target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
        }
        return 1 + Math.ceil((firstThursday - target) / 604800000);
@@ -252,7 +256,6 @@ class Day {
        return (new Date(this.year, this.month, this.date).getDay() + 6) % 7;
     } 
 
-    
     set value(value) {
         this.dayElement.innerHTML = value;
     }
@@ -332,7 +335,8 @@ class Calender {
 }
 let month = new Month(Today.month, Today.year);
 let calender = new Calender(Today.date, month);
-
+console.log(`${Today.date}/${Today.month}-${Today.year} | Uge: ${Today.week} | ${Today.hour}:${Today.minute}`);
+console.log(month);
 
 function insertDaysInWeekViewByWeek(week) {
     let weekDayNumber = document.getElementsByClassName("week-day-number");
@@ -346,6 +350,8 @@ function insertDaysInWeekViewByWeek(week) {
                 } else {
                     weekDayNumber[i].style = null;
                     weekDayNumber[i].innerHTML = arr[index].days[i].date;
+                    
+                    // Insert reminders
                 }
             }
         }
